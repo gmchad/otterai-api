@@ -10,6 +10,7 @@ class OtterAI:
     def __init__(self):
         self._session = requests.Session()
         self._userid = None
+        self._cookies = None
 
     def _is_userid_invalid(self):
         if not self._userid:
@@ -25,14 +26,15 @@ class OtterAI:
         self._session.auth = (username, password)
         # GET
         response = self._session.get(auth_url, params=payload)
-        # Set userid
+        # Check
+        if response.status_code != requests.codes.ok:
+            return {}
+        # Set userid & cookies
         response_json = response.json()
         self._userid = response_json['userid']
-
-        if response.status_code == requests.codes.ok:
-            return response_json
-        else:
-            return {}
+        self._cookies = response.cookies.get_dict()
+        
+        return response_json
 
     def user(self):
         # API URL
@@ -79,12 +81,34 @@ class OtterAI:
             return {}
 
     def get_speech(self, speech_id):
-        pass
+        # API URL
+        speech_url = OtterAI.API_BASE_URL + 'speech'
+        # Query Params
+        if self._is_userid_invalid():
+            return {}
+        payload = {'userid': self._userid, 'otid': speech_id}
+        # GET
+        response = self.session.get(speech_url, params=payload)
 
-    def query_speech(self, query, speed_id):
-        pass
+        if response.status_code == requests.codes.ok:
+            return response.json()
+        else:
+            return {}
 
-    def move_to_trash(self, speed_id):
+    def query_speech(self, query, speech_id, size=500):
+        # API URL
+        query_speech_url = OtterAI.API_BASE_URL + 'advanced_search'
+        # Query Params
+        payload = {'query': query, "size": size, "otid": speech_id}
+        # GET
+        response = self.session.get(query_speech_url, params=payload)
+
+        if response.status_code == requests.codes.ok:
+            return response.json()
+        else:
+            return {}
+
+    def move_to_trash(self, speech_id):
         pass
 
     def upload_speech(self, file_name, content_type='audio/mp4'):
@@ -144,6 +168,23 @@ class OtterAI:
         # Call finish api
         payload = {'bucket': bucket, 'key': key, 'language': 'en', 'country': 'us', 'userid': self._userid}
         response = self._session.get(finish_speech_upload, params=payload)
+
+        if response.status_code == requests.codes.ok:
+            return response.json()
+        else:
+            return {}
+
+    def create_speaker(self, speaker_name):
+        # API URL
+        create_speaker_url = OtterAI.API_BASE_URL + 'create_speaker'
+        # Query Parameters
+        if self._is_userid_invalid():
+            return {}
+        payload = {'userid': self._userid}
+        # GET
+        data = {'speaker_name': speaker_name}
+        headers = {'x-csrftoken': self._cookies['csrftoken']}
+        response = self._session.post(create_speaker_url, params=payload, headers=headers, data=data)
 
         if response.status_code == requests.codes.ok:
             return response.json()
