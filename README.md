@@ -21,3 +21,99 @@ or in a virtual environment
  ```
  
  ## APIs
+
+### User
+Get user specific data
+
+```python
+otter.get_user()
+```
+
+### Speeches
+Get all speeches 
+
+**optional parameters**: folder, page_size, source
+
+```python
+otter.get_speeches()
+```
+
+Get speech by id
+
+```python
+otter.get_speech(SPEECH_ID)
+```
+
+Query a speech
+
+```python
+otter.query_speech(QUERY, SPEECH_ID)
+```
+
+Upload a speech
+
+**optional parameters**: content_type (default audio/mp4)
+
+```python
+otter.upload_speech(FILE_NAME)
+```
+
+Move a speech to trash
+
+```python
+otter.move_to_trash_bin(SPEECH_ID)
+```
+
+#### TODO
+Start a live speech
+
+### Speakers
+
+Get all speakers
+
+```python
+otter.get_speakers()
+```
+
+Create a speaker
+
+```python
+otter.create_speaker(SPEAKER_NAME)
+```
+
+#### TODO
+Assign a speaker to speech transcript
+
+### Folders
+
+Get all folders
+
+```python
+otter.get_folders()
+```
+
+### Groups
+
+Get all groups
+
+```python
+otter.list_groups()
+```
+
+### Notifications
+
+Get notification settings
+
+```python
+otter.get_notification_settings()
+```
+
+## Exception Handling
+
+```python
+from otterai import OtterAIException
+
+try: 
+ ...
+except OtterAIException as e:
+ ...
