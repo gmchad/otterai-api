@@ -44,7 +44,7 @@ class OtterAI:
 
         return self._handle_response(response)
 
-    def user(self):
+    def get_user(self):
         # API URL
         user_url = OtterAI.API_BASE_URL + 'user'
         # GET
@@ -52,7 +52,7 @@ class OtterAI:
 
         return self._handle_response(response)
 
-    def speakers(self):
+    def get_speakers(self):
         # API URL
         speakers_url = OtterAI.API_BASE_URL + 'speakers'
         if self._is_userid_invalid():
@@ -64,7 +64,7 @@ class OtterAI:
 
         return self._handle_response(response)
     
-    def speeches(self, folder=0, page_size=45, source="owned"):
+    def get_speeches(self, folder=0, page_size=45, source="owned"):
         # API URL
         speeches_url = OtterAI.API_BASE_URL + 'speeches'
         if self._is_userid_invalid():
@@ -190,7 +190,7 @@ class OtterAI:
 
         return self._handle_response(response)
 
-    def notification_settings(self):
+    def get_notification_settings(self):
         # API URL
         notification_settings_url = OtterAI.API_BASE_URL + 'get_notification_settings'
         response = self._session.get(notification_settings_url)
@@ -209,7 +209,7 @@ class OtterAI:
 
         return self._handle_response(response)
 
-    def folders(self):
+    def get_folders(self):
         # API URL
         folders_url = OtterAI.API_BASE_URL + 'folders'
         if self._is_userid_invalid():
