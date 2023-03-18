@@ -76,7 +76,7 @@ Download a speech
 **optional parameters**: filename (defualt id), format (default: all available (txt,pdf,mp3,docx,srt) as zip file)
 
 ```python
-otter.download_speech(FILE_NAME)
+otter.download_speech(SPEECH_ID, FILE_NAME)
 ```
 
 Move a speech to trash
