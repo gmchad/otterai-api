@@ -164,7 +164,7 @@ class OtterAI:
 
         return self._handle_response(response)
 
-    def download_speech(self, speech_id, fileformat="txt,pdf,mp3,docx,srt", name=None):
+    def download_speech(self, speech_id, name=None, fileformat="txt,pdf,mp3,docx,srt"):
         # API URL
         download_speech_url = OtterAI.API_BASE_URL + 'bulk_export'
         if self._is_userid_invalid():
@@ -181,7 +181,7 @@ class OtterAI:
             with open(filename, "wb") as f:
                 f.write(response.content)
         else:
-            raise OtterAIException(f"Got response {r.ok} when attempting to download {speech_id}")
+            raise OtterAIException(f"Got response status {response.status_code} when attempting to download {speech_id}")
         return self._handle_response(response, data={"filename": filename})
 
     def move_to_trash_bin(self, speech_id):
