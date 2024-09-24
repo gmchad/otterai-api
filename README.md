@@ -51,6 +51,14 @@ Get all speeches
 otter.get_speeches()
 ```
 
+Get all speeches in a folder
+
+**optional parameters**: page_size, last_load_speech_id
+
+```python
+otter.list_folder_speeches(folder_id=FOLDER_ID)
+```
+
 Get speech by id
 
 ```python
@@ -77,6 +85,14 @@ Download a speech
 
 ```python
 otter.download_speech(SPEECH_ID, FILE_NAME)
+```
+
+Stream a speech
+
+**optional parameters**: format (default: mp4)
+
+```python
+otter.stream_speech(SPEECH_ID)
 ```
 
 Move a speech to trash
