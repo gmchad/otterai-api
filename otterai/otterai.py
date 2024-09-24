@@ -164,6 +164,23 @@ class OtterAI:
 
         return self._handle_response(response)
 
+    def stream_speech(self, speech_id, fileformat="mp3"):
+        # API URL
+        download_speech_url = OtterAI.API_BASE_URL + 'bulk_export'
+        if self._is_userid_invalid():
+            raise OtterAIException('userid is invalid')
+        # Query Params
+        payload = {'userid': self._userid}
+        # POST
+        data = {'formats': fileformat, "speech_otid_list": [speech_id]}
+        headers = {'x-csrftoken': self._cookies['csrftoken'], "referer": "https://otter.ai/"}
+
+        with self._session.post(download_speech_url, params=payload, headers=headers, data=data, stream=True) as response:
+            if response.ok:
+                return response.content  # Return the entire content
+            else:
+                raise OtterAIException(f"Got response status {response.status_code} when attempting to stream {speech_id}")
+
     def download_speech(self, speech_id, name=None, fileformat="txt,pdf,mp3,docx,srt"):
         # API URL
         download_speech_url = OtterAI.API_BASE_URL + 'bulk_export'
@@ -193,7 +210,10 @@ class OtterAI:
         payload = {'userid': self._userid}
         # POST
         data = {'otid': speech_id}
-        headers = {'x-csrftoken': self._cookies['csrftoken']}
+        headers = {
+            'x-csrftoken': self._cookies['csrftoken'],
+            'Referer': 'https://otter.ai/'
+        }
         response = self._session.post(move_to_trash_bin_url, params=payload, headers=headers, data=data)
 
         return self._handle_response(response)
@@ -254,3 +274,25 @@ class OtterAI:
     def stop_speech(self):
         # API URL
         speech_finish_url = OtterAI.API_BASE_URL + 'speech_finish'
+
+    def list_folder_speeches(self, folder_id, page_size=45, last_load_speech_id=None, modified_after=None, speech_metadata=True):
+        # API URL
+        list_folder_speeches_url = OtterAI.API_BASE_URL + 'list_folder_speeches'
+        if self._is_userid_invalid():
+            raise OtterAIException('userid is invalid')
+        # Query Parameters
+        payload = {
+            'userid': self._userid,
+            'folder_id': folder_id,
+            'speech_metadata': speech_metadata,
+            'page_size': page_size,
+        }
+
+        if last_load_speech_id:
+            payload['last_load_speech_id'] = last_load_speech_id
+        if modified_after:
+            payload['modified_after'] = modified_after
+        # GET
+        response = self._session.get(list_folder_speeches_url, params=payload)
+
+        return self._handle_response(response)
