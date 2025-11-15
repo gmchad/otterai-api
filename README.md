@@ -4,16 +4,16 @@ Unofficial Python API for [otter.ai](http://otter.ai)
 
 ## Contents
 
-- [Installation](#installation)
-- [Setup](#setup)
-- [APIs](#apis)
-  - [User](#user)
-  - [Speeches](#speeches)
-  - [Speakers](#speakers)
-  - [Folders](#folders)
-  - [Groups](#groups)
-  - [Notifications](#notifications)
-- [Exceptions](#exceptions)
+-   [Installation](#installation)
+-   [Setup](#setup)
+-   [APIs](#apis)
+    -   [User](#user)
+    -   [Speeches](#speeches)
+    -   [Speakers](#speakers)
+    -   [Folders](#folders)
+    -   [Groups](#groups)
+    -   [Notifications](#notifications)
+-   [Exceptions](#exceptions)
 
 ## Installation
 
