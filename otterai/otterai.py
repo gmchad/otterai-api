@@ -1,7 +1,8 @@
-from requests_toolbelt.multipart.encoder import MultipartEncoder
-import xml.etree.ElementTree as ET
-import requests
 import json
+import xml.etree.ElementTree as ET
+
+import requests
+from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 
 class OtterAIException(Exception):
