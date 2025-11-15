@@ -15,11 +15,11 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v4
 
+            - name: Set up uv
+              uses: astral-sh/setup-uv@v7
+
             - name: Install dependencies
               run: make init-dev
 
-            - name: Install and run tests with uv
-              uses: astral-sh/setup-uv@v7
-              with:
-                  dependencies: .[dev]
-                  run: make test
+            - name: Run tests
+              run: make test
