@@ -20,22 +20,25 @@ Unofficial Python API for [otter.ai](http://otter.ai)
 `pip install .`
 
 or in a virtual environment
- ```bash 
- python3 -m venv env
- source env/bin/activate
- pip install .
- ```
- 
- ## Setup
- ```python
- from otterai import OtterAI
- otter = OtterAI()
- otter.login('USERNAME', 'PASSWORD')
- ```
- 
- ## APIs
+
+```bash
+python3 -m venv env
+source env/bin/activate
+pip install .
+```
+
+## Setup
+
+```python
+from otterai import OtterAI
+otter = OtterAI()
+otter.login('USERNAME', 'PASSWORD')
+```
+
+## APIs
 
 ### User
+
 Get user specific data
 
 ```python
@@ -43,7 +46,8 @@ otter.get_user()
 ```
 
 ### Speeches
-Get all speeches 
+
+Get all speeches
 
 **optional parameters**: folder, page_size, source
 
@@ -86,6 +90,7 @@ otter.move_to_trash_bin(SPEECH_ID)
 ```
 
 #### TODO
+
 Start a live speech
 
 ### Speakers
@@ -103,6 +108,7 @@ otter.create_speaker(SPEAKER_NAME)
 ```
 
 #### TODO
+
 Assign a speaker to speech transcript
 
 ### Folders
@@ -134,7 +140,8 @@ otter.get_notification_settings()
 ```python
 from otterai import OtterAIException
 
-try: 
+try:
  ...
 except OtterAIException as e:
  ...
+```
