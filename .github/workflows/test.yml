@@ -1,0 +1,25 @@
+name: Test
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - "*"
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Install dependencies
+              run: make init-dev
+
+            - name: Install and run tests with uv
+              uses: astral-sh/uv-action@v7
+              with:
+                  dependencies: .[dev]
+                  run: make test
