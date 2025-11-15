@@ -4,9 +4,7 @@ import xml.etree.ElementTree as ET
 import requests
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 
-
-class OtterAIException(Exception):
-    pass
+from .exceptions import OtterAIException
 
 
 class OtterAI:
