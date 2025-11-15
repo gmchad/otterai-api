@@ -131,6 +131,7 @@ class OtterAI:
         if response.status_code != requests.codes.ok:
             return self._handle_response(response)
 
+        # TODO: test for large files (this should stream)
         fields = {}
         params_data["success_action_status"] = str(params_data["success_action_status"])
         del params_data["form_action"]
@@ -149,7 +150,7 @@ class OtterAI:
 
         xmltree = ET.ElementTree(ET.fromstring(response.text))
         xmlroot = xmltree.getroot()
-
+        # TODO: clean this up
         location = xmlroot[0].text
         bucket = xmlroot[1].text
         key = xmlroot[2].text
@@ -256,6 +257,9 @@ class OtterAI:
     def speech_start(self):
         speech_start_uel = OtterAI.API_BASE_URL + "speech_start"
         ### TODO
+        # In the browser a websocket session is opened
+        # wss://ws.aisense.com/api/v2/client/speech?token=ey...
+        # The speech_start endpoint returns the JWT token
 
     def stop_speech(self):
         speech_finish_url = OtterAI.API_BASE_URL + "speech_finish"
