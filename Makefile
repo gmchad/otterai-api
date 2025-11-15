@@ -1,6 +1,7 @@
 .PHONY: init-dev format test
 
 init-dev:
+	uv venv || true
 	uv pip install .[dev]
 
 format:
