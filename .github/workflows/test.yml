@@ -19,7 +19,7 @@ jobs:
               run: make init-dev
 
             - name: Install and run tests with uv
-              uses: astral-sh/uv-action@v7
+              uses: astral-sh/setup-uv@v7
               with:
                   dependencies: .[dev]
                   run: make test
