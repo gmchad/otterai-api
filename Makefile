@@ -8,4 +8,9 @@ format:
 	uv run black .
 
 test:
-	uv run pytest
+	rm -f cov.xml ||:
+	uv run pytest --cov=otterai \
+		--cov-report=lcov:lcov.info \
+		--cov-report=xml:cov.xml \
+		tests/
+	rm -f lcov.info .coverage ||:
