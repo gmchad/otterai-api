@@ -3,3 +3,4 @@ __pycache__/
 build/
 cov.xml
 .env
+tests/output/

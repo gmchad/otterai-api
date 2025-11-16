@@ -4,6 +4,7 @@ import pytest
 from dotenv import load_dotenv
 
 from otterai.otterai import OtterAI
+from tests.helpers import dump_json_response
 
 load_dotenv()
 
@@ -15,6 +16,11 @@ def logged_in_otter():
     otter = OtterAI()
     otter.login(username, password)
     return otter
+
+
+def test_dump_json_dummy():
+    dummy_response = {"foo": "bar", "baz": [1, 2, 3]}
+    dump_json_response(dummy_response, "dummy.json")
 
 
 def test_otterai_instantiation():
@@ -42,6 +48,11 @@ def test_get_user(logged_in_otter):
     username = os.getenv("OTTERAI_USERNAME")
     response = logged_in_otter.get_user()
     assert response["data"]["user"]["email"] == username
+
+
+def test_get_speakers(logged_in_otter):
+    response = logged_in_otter.get_speakers()
+    assert response["status"] == 200
 
 
 def test_stop_speech():
