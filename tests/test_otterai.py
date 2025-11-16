@@ -3,7 +3,7 @@ import os
 import pytest
 from dotenv import load_dotenv
 
-from otterai.otterai import OtterAI
+from otterai.otterai import OtterAI, OtterAIException
 from tests.helpers import dump_json_response
 
 load_dotenv()
@@ -53,6 +53,17 @@ def test_get_user(logged_in_otter):
 def test_get_speakers(logged_in_otter):
     response = logged_in_otter.get_speakers()
     assert response["status"] == 200
+
+
+def test_get_speeches(logged_in_otter):
+    response = logged_in_otter.get_speeches()
+    assert response["status"] == 200
+
+
+def test_get_speakers_invalid_userid():
+    otter = OtterAI()
+    with pytest.raises(OtterAIException, match="userid is invalid"):
+        otter.get_speakers()
 
 
 def test_stop_speech():
