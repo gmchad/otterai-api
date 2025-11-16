@@ -66,6 +66,54 @@ def test_get_speakers_invalid_userid():
         otter.get_speakers()
 
 
+def test_get_speeches_invalid_userid():
+    otter = OtterAI()
+    with pytest.raises(OtterAIException, match="userid is invalid"):
+        otter.get_speeches()
+
+
+def test_get_speech_invalid_userid():
+    otter = OtterAI()
+    with pytest.raises(OtterAIException, match="userid is invalid"):
+        otter.get_speech("dummyid")
+
+
+def test_upload_speech_invalid_userid():
+    otter = OtterAI()
+    with pytest.raises(OtterAIException, match="userid is invalid"):
+        otter.upload_speech("dummy.mp4")
+
+
+def test_download_speech_invalid_userid():
+    otter = OtterAI()
+    with pytest.raises(OtterAIException, match="userid is invalid"):
+        otter.download_speech("dummyid")
+
+
+def test_move_to_trash_bin_invalid_userid():
+    otter = OtterAI()
+    with pytest.raises(OtterAIException, match="userid is invalid"):
+        otter.move_to_trash_bin("dummyid")
+
+
+def test_create_speaker_invalid_userid():
+    otter = OtterAI()
+    with pytest.raises(OtterAIException, match="userid is invalid"):
+        otter.create_speaker("dummy_speaker")
+
+
+def test_list_groups_invalid_userid():
+    otter = OtterAI()
+    with pytest.raises(OtterAIException, match="userid is invalid"):
+        otter.list_groups()
+
+
+def test_get_folders_invalid_userid():
+    otter = OtterAI()
+    with pytest.raises(OtterAIException, match="userid is invalid"):
+        otter.get_folders()
+
+
 def test_stop_speech():
     otter = OtterAI()
     otter.stop_speech()
