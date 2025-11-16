@@ -4,7 +4,11 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
-dependencies = ["requests", "requests_toolbelt"]
+dependencies = [
+    "python-dotenv>=1.2.1",
+    "requests",
+    "requests_toolbelt",
+]
 
 [project.optional-dependencies]
 dev = ["pytest", "pytest-cov", "black"]

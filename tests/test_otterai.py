@@ -1,4 +1,11 @@
+import os
+
+from dotenv import load_dotenv
+
 from otterai.otterai import OtterAI
+
+
+load_dotenv()
 
 
 def test_otterai_instantiation():
@@ -21,3 +28,21 @@ def test_otterai_valid_userid():
 def test_stop_speech():
     otter = OtterAI()
     otter.stop_speech()
+
+
+def test_login():
+    username = os.getenv("OTTERAI_USERNAME")
+    password = os.getenv("OTTERAI_PASSWORD")
+    otter = OtterAI()
+    response = otter.login(username, password)
+    assert response["status"] == 200
+    assert otter._userid is not None
+
+
+def test_get_user():
+    username = os.getenv("OTTERAI_USERNAME")
+    password = os.getenv("OTTERAI_PASSWORD")
+    otter = OtterAI()
+    otter.login(username, password)
+    response = otter.get_user()
+    assert response["data"]["user"]["email"] == username
