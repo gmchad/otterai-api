@@ -55,15 +55,15 @@ def test_get_speakers(logged_in_otter):
     assert response["status"] == 200
 
 
-def test_get_speeches(logged_in_otter):
-    response = logged_in_otter.get_speeches()
-    assert response["status"] == 200
-
-
 def test_get_speakers_invalid_userid():
     otter = OtterAI()
     with pytest.raises(OtterAIException, match="userid is invalid"):
         otter.get_speakers()
+
+
+def test_get_speeches(logged_in_otter):
+    response = logged_in_otter.get_speeches()
+    assert response["status"] == 200
 
 
 def test_get_speeches_invalid_userid():
@@ -76,6 +76,12 @@ def test_get_speech_invalid_userid():
     otter = OtterAI()
     with pytest.raises(OtterAIException, match="userid is invalid"):
         otter.get_speech("dummyid")
+
+
+def test_query_speech(logged_in_otter):
+    # Minimal test, can be expanded
+    response = logged_in_otter.query_speech("test", "dummyid")
+    assert "status" in response
 
 
 def test_upload_speech_invalid_userid():
@@ -100,6 +106,11 @@ def test_create_speaker_invalid_userid():
     otter = OtterAI()
     with pytest.raises(OtterAIException, match="userid is invalid"):
         otter.create_speaker("dummy_speaker")
+
+
+def test_get_notification_settings(logged_in_otter):
+    response = logged_in_otter.get_notification_settings()
+    assert "status" in response
 
 
 def test_list_groups_invalid_userid():
