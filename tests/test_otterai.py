@@ -34,11 +34,6 @@ def test_otterai_valid_userid():
     assert otter._is_userid_invalid() is False
 
 
-def test_stop_speech():
-    otter = OtterAI()
-    otter.stop_speech()
-
-
 def test_login(logged_in_otter):
     assert logged_in_otter._userid is not None
 
@@ -47,3 +42,8 @@ def test_get_user(logged_in_otter):
     username = os.getenv("OTTERAI_USERNAME")
     response = logged_in_otter.get_user()
     assert response["data"]["user"]["email"] == username
+
+
+def test_stop_speech():
+    otter = OtterAI()
+    otter.stop_speech()
