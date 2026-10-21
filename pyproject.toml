@@ -5,8 +5,9 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
-    "python-dotenv>=1.2.1",
-    "requests",
+    "python-dotenv>=1.2.4",
+    "requests>=2.34.2",
+    "certifi>=2026.10.19",
     "requests_toolbelt",
 ]
 
