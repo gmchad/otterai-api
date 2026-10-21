@@ -13,6 +13,8 @@ load_dotenv()
 def logged_in_otter():
     username = os.getenv("OTTERAI_USERNAME")
     password = os.getenv("OTTERAI_PASSWORD")
+    if not username or not password:
+        pytest.skip("Live Otter.ai tests require OTTERAI_USERNAME and OTTERAI_PASSWORD")
     otter = OtterAI()
     otter.login(username, password)
     return otter
@@ -78,6 +80,32 @@ def test_get_speech_invalid_userid():
         otter.get_speech("dummyid")
 
 
+@pytest.mark.parametrize(
+    "kwargs, expected",
+    [
+        ({"speech_id": "legacy-otid"}, {"otid": "legacy-otid"}),
+        ({"otid": "otter-id"}, {"otid": "otter-id"}),
+        ({"speech_id": 42, "otid": "otter-id"}, {"otid": "otter-id", "speech_id": 42}),
+    ],
+)
+def test_get_speech_identifiers(monkeypatch, kwargs, expected):
+    from unittest.mock import Mock
+
+    otter = OtterAI()
+    otter._userid = "user-id"
+    response = Mock(status_code=200)
+    response.json.return_value = {"speech": {}}
+    get = Mock(return_value=response)
+    monkeypatch.setattr(otter._session, "get", get)
+
+    result = otter.get_speech(**kwargs)
+
+    get.assert_called_once_with(
+        OtterAI.API_BASE_URL + "speech", params={"userid": "user-id", **expected}
+    )
+    assert result == {"status": 200, "data": {"speech": {}}}
+
+
 def test_query_speech(logged_in_otter):
     # Minimal test, can be expanded
     response = logged_in_otter.query_speech("test", "dummyid")
@@ -123,6 +151,31 @@ def test_get_folders_invalid_userid():
     otter = OtterAI()
     with pytest.raises(OtterAIException, match="userid is invalid"):
         otter.get_folders()
+
+
+def test_get_action_items_invalid_userid():
+    otter = OtterAI()
+    with pytest.raises(OtterAIException, match="userid is invalid"):
+        otter.get_action_items("dummyid")
+
+
+def test_get_action_items(monkeypatch):
+    from unittest.mock import Mock
+
+    otter = OtterAI()
+    otter._userid = "user-id"
+    response = Mock(status_code=200)
+    response.json.return_value = {"speech_action_items": [{"text": "Follow up"}]}
+    get = Mock(return_value=response)
+    monkeypatch.setattr(otter._session, "get", get)
+
+    result = otter.get_action_items("speech-otid")
+
+    get.assert_called_once_with(
+        OtterAI.API_BASE_URL + "speech_action_items",
+        params={"userid": "user-id", "otid": "speech-otid"},
+    )
+    assert result == {"status": 200, "data": response.json.return_value}
 
 
 def test_stop_speech():
