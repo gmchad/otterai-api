@@ -80,12 +80,21 @@ class OtterAI:
 
         return self._handle_response(response)
 
-    def get_speech(self, speech_id):
+    def get_speech(self, speech_id=None, *, otid=None):
+        """Fetch a speech; legacy speech_id callers pass the Otter ID.
+
+        Supply both keyword arguments when the API also needs a numeric speech ID.
+        """
         speech_url = OtterAI.API_BASE_URL + "speech"
         if self._is_userid_invalid():
             raise OtterAIException("userid is invalid")
 
-        payload = {"userid": self._userid, "otid": speech_id}
+        payload = {
+            "userid": self._userid,
+            "otid": otid if otid is not None else speech_id,
+        }
+        if otid is not None and speech_id is not None:
+            payload["speech_id"] = speech_id
 
         response = self._session.get(speech_url, params=payload)
 
@@ -261,7 +270,7 @@ class OtterAI:
         payload = {"userid": self._userid, "otid": speech_id}
 
         response = self._session.get(action_items_url, params=payload)
-        
+
         return self._handle_response(response)
 
     def speech_start(self):
